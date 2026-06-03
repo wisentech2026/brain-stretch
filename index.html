@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>换换脑子 · Brain Stretch</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Noto+Serif+SC:wght@300;400;500;700&family=LXGW+WenKai+TC:wght@300;400&display=swap');
+
+:root{
+  --bg:#14110d; --ink:#ece7dd; --dim:#8a8377; --line:#322d26;
+  --go:#c9b88a; --good:#86a37d; --warn:#cf6a55;
+  /* Emil-style spring easings */
+  --spring:cubic-bezier(0.32, 0.72, 0, 1);
+  --spring-out:cubic-bezier(0.16, 1, 0.3, 1);
+  --spring-soft:cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overscroll-behavior:none}
+body{
+  background:radial-gradient(120% 100% at 50% 0%, #1f1b15 0%, var(--bg) 70%);
+  color:var(--ink); font-family:'Noto Serif SC',serif;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;user-select:none;
+}
+#noise{position:fixed;inset:0;pointer-events:none;opacity:.035;z-index:1}
+.app{width:min(480px,100vw);height:100dvh;position:relative;z-index:2;display:flex;flex-direction:column}
+
+.screen{position:absolute;inset:0;display:none;flex-direction:column;padding:2rem 1.6rem;animation:fade .42s var(--spring-out)}
+.screen.on{display:flex}
+#home.on{display:block;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;padding-bottom:8rem}
+#home::-webkit-scrollbar{display:none}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* sound toggle (global) */
+/* AdSense Anchor Ad — fixed bottom, dismissible, mobile-style */
+.anchor-ad{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  height:64px;
+  background:#1a1813;
+  border-top:1px solid #2e2820;
+  display:flex;align-items:center;padding:0 .75rem 0 .85rem;gap:.75rem;
+  transform:translateY(0);transition:transform .35s var(--spring-out);
+  box-shadow:0 -4px 20px rgba(0,0,0,.3);
+}
+.anchor-ad.hidden{transform:translateY(100%)}
+.anchor-ad-label{position:absolute;top:-1px;left:.6rem;transform:translateY(-100%);
+  font-size:.55rem;letter-spacing:.25em;color:#5a544a;text-transform:uppercase;
+  background:#1a1813;padding:.2rem .5rem;border-radius:3px 3px 0 0;border:1px solid #2e2820;border-bottom:none}
+.anchor-ad-close{
+  position:absolute;top:50%;right:.5rem;transform:translateY(-50%);
+  width:22px;height:22px;border-radius:50%;border:none;
+  background:rgba(255,255,255,.08);color:#a59c87;font-size:1rem;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;padding:0;
+  transition:background .2s
+}
+.anchor-ad-close:hover{background:rgba(255,255,255,.16);color:#ece7dd}
+.anchor-ad-img{width:44px;height:44px;border-radius:6px;background:linear-gradient(135deg,#3a352b,#262218);flex-shrink:0}
+.anchor-ad-content{display:flex;align-items:center;gap:.7rem;flex:1;min-width:0;margin-right:1.8rem}
+.anchor-ad-tx{flex:1;min-width:0}
+.anchor-ad-title{font-size:.85rem;color:#c4bdb0;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.anchor-ad-desc{font-size:.66rem;color:#7a746a;line-height:1.3;margin-top:.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* leave room above anchor ad so it doesn't cover content */
+.app{padding-bottom:64px}
+.anchor-ad.hidden ~ .app{padding-bottom:0}
+.sound{position:fixed;top:1rem;right:1rem;z-index:50;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(20,18,14,.6);backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:transform .3s var(--spring-out),border-color .25s;will-change:transform}
+.sound:hover{border-color:#46402f;transform:scale(1.05)}
+.sound:active{transform:scale(.92);transition-duration:.08s}
+.sound svg{width:18px;height:18px}
+
+/* ---------- HOME ---------- */
+.brand{margin-top:3rem;text-align:center}
+.brand .zh{
+  font-family:'Fraunces','Noto Serif SC',serif;
+  font-weight:400;
+  font-size:2.85rem;
+  letter-spacing:.05em;
+  line-height:1.2;
+  white-space:nowrap;
+}
+.brand .en{font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--dim);margin-top:.85rem;white-space:nowrap}
+.tagline{text-align:center;color:#b8b1a3;font-size:.95rem;line-height:1.8;margin:1.8rem auto 0;max-width:30ch}
+.tagline b{color:var(--ink);font-weight:500}
+
+.profilebar{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:1.7rem;font-size:.8rem;color:var(--dim)}
+.trendlink-top{display:flex;align-items:center;gap:.45rem;color:var(--go);cursor:pointer;font-size:.85rem;transition:opacity .2s}
+.trendlink-top:hover{opacity:.75}
+
+.cards-wrap{position:relative;margin-top:1.8rem}
+.cards{display:flex;flex-direction:column;gap:1rem;margin-top:1.8rem}
+
+/* BMC and ads now live inside the scroll area, at the very bottom */
+.cards-footer{display:flex;flex-direction:column;align-items:center;gap:1.4rem;padding-top:2rem;padding-bottom:1rem}
+.legal{display:flex;flex-direction:column;align-items:center;gap:.5rem;margin-top:.5rem}
+.legal .links{display:flex;align-items:center}
+.legal a{color:var(--dim);font-size:.72rem;text-decoration:none;transition:color .2s}
+.legal a:hover{color:var(--ink)}
+.legal .dot{color:#46402f;margin:0 .5rem;font-size:.72rem}
+.legal .rights{color:#5a544a;font-size:.66rem;letter-spacing:.05em;margin-top:.3rem}
+
+/* Buy Me a Coffee link */
+.bmc{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;color:#1a1610;text-decoration:none;padding:.7rem 1.4rem;border-radius:30px;background:var(--go);font-weight:500;transition:transform .3s var(--spring-out),background .25s}
+.bmc:hover{background:#d6c595;transform:translateY(-1px)}
+.bmc:active{transform:translateY(0) scale(.97);transition-duration:.08s}
+.bmc svg{opacity:1}
+
+/* Ad slot */
+.ads-slot{width:100%;max-width:340px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.012);padding:.85rem .95rem;display:flex;flex-direction:column;gap:.5rem}
+.ads-label{font-size:.55rem;letter-spacing:.3em;color:#5a544a;text-transform:uppercase;text-align:left}
+.ads-mock{display:flex;align-items:center;gap:.7rem}
+.ads-mock-img{width:46px;height:46px;border-radius:6px;background:linear-gradient(135deg,#3a352b,#262218);flex-shrink:0}
+.ads-mock-tx{flex:1;text-align:left;min-width:0}
+.ads-mock-title{font-size:.82rem;color:#a59c87;line-height:1.3}
+.ads-mock-desc{font-size:.7rem;color:#6e6759;line-height:1.4;margin-top:.15rem}
+.ads-mock-tag{font-size:.55rem;color:#5a544a;letter-spacing:.15em;text-transform:uppercase;align-self:flex-start;margin-top:.2rem}
+.card{border:1px solid var(--line);border-radius:18px;padding:1.25rem 1.3rem;display:flex;align-items:center;gap:1.2rem;
+  cursor:pointer;transition:transform .25s var(--spring-out),border-color .2s var(--spring),background .2s var(--spring);
+  background:rgba(255,255,255,.012);position:relative;will-change:transform}
+.card.live:hover{border-color:#52492f;background:rgba(201,184,138,.06);transform:translateY(-1px)}
+.card.live:active{transform:translateY(0) scale(.985);transition-duration:.08s}
+.card .ic{width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.card .tx{flex:1;min-width:0;overflow:hidden}
+.card .tx h3{font-family:'Fraunces','Noto Serif SC',serif;font-weight:400;font-size:1.2rem;margin-bottom:.35rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .tx p{font-size:.72rem;color:var(--dim);line-height:1.5;letter-spacing:.18em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .tx .how{color:#837c70;letter-spacing:.04em;margin-left:.5em}
+.card .best{font-size:.62rem;color:var(--go);margin-top:.3rem;letter-spacing:.05em}
+.card .soon{font-size:.6rem;letter-spacing:.2em;color:var(--dim);border:1px solid var(--line);padding:.2rem .5rem;border-radius:20px}
+.card.locked{opacity:.4;cursor:default}
+
+.trendlink{font-size:.92rem;color:var(--go);cursor:pointer;display:flex;align-items:center;gap:.5rem;transition:opacity .2s}
+.trendlink:hover{opacity:.8}
+.homenote{text-align:center;font-size:.7rem;color:var(--dim);line-height:1.6}
+
+/* ---------- game shell ---------- */
+.top{display:flex;align-items:center;justify-content:space-between;height:2.4rem}
+.back{font-size:1.5rem;color:var(--dim);cursor:pointer;width:2rem;line-height:1;transition:color .2s,transform .25s var(--spring-out)}
+.back:hover{color:var(--ink);transform:translateX(-2px)}
+.gtitle{font-family:'Fraunces',serif;font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;color:var(--dim)}
+.livestat{font-family:'Fraunces',serif;font-size:.95rem;color:var(--go);min-width:3rem;text-align:right}
+.timebar{height:2px;background:var(--line);border-radius:2px;margin-top:.4rem;overflow:hidden}
+.timebar i{display:block;height:100%;background:var(--go);width:100%}
+.gbody{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+
+.rules{max-width:30ch}
+.rules h2{font-family:'Fraunces',serif;font-weight:300;font-size:1.9rem;margin-bottom:1.2rem;line-height:1.2}
+.rules .demo{margin:1.5rem 0;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.7rem}
+.rules p{font-size:.95rem;line-height:1.75;color:#bdb6aa}
+.rules .hint{font-size:.8rem;color:var(--dim);margin-top:1rem}
+
+.btn{font-family:'Fraunces',serif;background:none;border:1px solid var(--line);color:var(--ink);
+  padding:.85rem 2.2rem;font-size:1rem;letter-spacing:.04em;cursor:pointer;border-radius:30px;
+  transition:transform .3s var(--spring-out),letter-spacing .3s var(--spring),border-color .25s,background .25s,box-shadow .3s var(--spring);
+  margin-top:1.5rem;position:relative;overflow:hidden;will-change:transform}
+.btn:hover{letter-spacing:.1em;border-color:#52492f;transform:translateY(-1px)}
+.btn:active{transform:translateY(0) scale(.97);transition-duration:.08s}
+.btn.primary{background:var(--go);color:#1a1610;border-color:var(--go)}
+.btn.primary:hover{background:#d6c595;box-shadow:0 6px 24px rgba(201,184,138,.25);transform:translateY(-1px)}
+
+.countbig{font-family:'Fraunces',serif;font-size:6rem;font-weight:300;color:var(--go);animation:pop .65s var(--spring-out)}
+@keyframes pop{from{opacity:0;transform:scale(1.35)}to{opacity:1;transform:scale(1)}}
+
+/* go/no-go */
+.glyph{font-family:'Fraunces',serif;font-weight:300;font-size:6rem;line-height:1;transition:opacity .1s,transform .1s}
+.ring{position:absolute;width:210px;height:210px;border-radius:50%;border:1px solid var(--line);transition:border-color .15s;will-change:border-color}
+.ring.ok{border-color:var(--good)}
+.ring.bad{border-color:var(--warn)}
+.cuewrap{position:relative;display:flex;align-items:center;justify-content:center;width:210px;height:210px}
+/* ripple */
+.ripple{position:absolute;border-radius:50%;border:1.5px solid var(--go);pointer-events:none;animation:rip .5s ease-out forwards;will-change:width,height,opacity}
+@keyframes rip{from{width:40px;height:40px;opacity:.7}to{width:230px;height:230px;opacity:0}}
+.tap-hint{margin-top:2.4rem;font-size:.86rem;color:var(--dim)}
+kbd{font-family:'Fraunces',serif;border:1px solid var(--line);padding:.12rem .55rem;border-radius:4px;font-size:.82rem}
+
+/* stroop */
+.stroopword{font-family:'Noto Serif SC';font-weight:500;font-size:5rem;line-height:1;margin-bottom:.5rem;transition:transform .12s}
+.swatches{display:flex;gap:.8rem;margin-top:2.4rem;flex-wrap:wrap;justify-content:center}
+.swatch{width:62px;height:62px;border-radius:12px;cursor:pointer;border:2px solid rgba(255,255,255,.08);
+  transition:transform .35s var(--spring-soft),box-shadow .25s var(--spring);will-change:transform}
+.swatch:hover{transform:translateY(-3px);box-shadow:0 6px 16px rgba(0,0,0,.4)}
+.swatch:active{transform:translateY(0) scale(.9);transition-duration:.08s}
+.swatch.flash{animation:swflash .35s}
+@keyframes swflash{0%{box-shadow:0 0 0 0 rgba(255,255,255,.6)}100%{box-shadow:0 0 0 14px rgba(255,255,255,0)}}
+.qlabel{font-size:.82rem;color:var(--dim);letter-spacing:.1em;margin-bottom:1.3rem}
+
+/* anchor */
+.anchor{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,var(--go) 0%,rgba(201,184,138,.15) 60%,transparent 70%);animation:breathe 8s ease-in-out infinite;will-change:transform,opacity;transform:translateZ(0)}
+@keyframes breathe{0%,100%{transform:scale(.55);opacity:.6}50%{transform:scale(1);opacity:1}}
+.anchor-hint{margin-top:2.6rem;font-size:.85rem;color:var(--dim);line-height:1.7;max-width:26ch}
+.wander-btn{margin-top:1.4rem;font-size:.8rem;color:var(--go);border:1px solid var(--line);background:none;padding:.6rem 1.4rem;border-radius:30px;cursor:pointer;transition:transform .3s var(--spring-out),border-color .25s,background .25s;will-change:transform}
+.wander-btn:hover{border-color:var(--go);transform:translateY(-1px)}
+.wander-btn:active{transform:translateY(0) scale(.94);transition-duration:.08s}
+
+/* n-back */
+.nb-glyph{font-family:'Fraunces',serif;font-weight:300;font-size:6rem;line-height:1;color:var(--ink);transition:opacity .12s,color .12s}
+.nb-prev{position:absolute;top:-3rem;font-family:'Fraunces',serif;font-size:1.4rem;color:var(--dim);opacity:.55}
+.nb-prev-label{position:absolute;top:-4.5rem;font-size:.62rem;letter-spacing:.25em;color:var(--dim);text-transform:uppercase}
+.nb-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:210px;height:210px}
+
+/* visual search */
+.vs-grid{display:grid;gap:.6rem;padding:1rem;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.012)}
+.vs-cell{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:1.5rem;color:#a59c87;cursor:pointer;transition:transform .25s var(--spring-soft),color .2s;user-select:none;will-change:transform}
+.vs-cell:active{transform:scale(.82);transition-duration:.08s}
+.vs-progress{font-size:.78rem;color:var(--dim);letter-spacing:.18em;margin-top:1.4rem}
+
+/* breathing — uses the same orb visual as anchor, with a 4-7-8 keyframe */
+.br-orb-anim{
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,var(--go) 0%,rgba(201,184,138,.15) 60%,transparent 70%);
+  animation:breathe478 19s cubic-bezier(.45,.05,.55,.95) infinite;
+  will-change:transform,opacity;transform:translateZ(0);
+}
+@keyframes breathe478{
+  0%   {transform:scale(.35);opacity:.55}   /* 起始（呼完） */
+  21%  {transform:scale(1);   opacity:1}    /* 吸气结束 4s = 4/19 = 21% */
+  58%  {transform:scale(1);   opacity:1}    /* 屏气结束 4+7=11s = 58% */
+  100% {transform:scale(.35); opacity:.55}  /* 呼气结束 19s = 100% */
+}
+.br-phase{font-family:'Fraunces',serif;font-size:1.05rem;color:var(--go);letter-spacing:.2em;margin-top:2.4rem}
+.br-cycle{margin-top:.8rem;font-size:.78rem;color:var(--dim);letter-spacing:.18em}
+
+/* result */
+.result{text-align:center;max-width:32ch}
+.r-eyebrow{font-size:.66rem;letter-spacing:.35em;text-transform:uppercase;color:var(--dim);margin-bottom:1rem}
+.r-big{font-family:'Fraunces',serif;font-weight:300;font-size:4.5rem;color:var(--go);line-height:1;animation:rbig .7s var(--spring-soft)}
+@keyframes rbig{0%{opacity:0;transform:scale(.7)}60%{opacity:1;transform:scale(1.03)}100%{opacity:1;transform:scale(1)}}
+.r-grid{display:flex;gap:2rem;justify-content:center;margin:1.8rem 0}
+.r-grid div span{display:block;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);margin-bottom:.4rem}
+.r-grid div b{font-family:'Fraunces',serif;font-weight:300;font-size:1.8rem}
+.delta{font-size:.7rem;margin-top:.3rem}
+.delta.up{color:var(--good)}.delta.down{color:var(--dim)}
+.handoff{font-size:1rem;line-height:1.7;color:#c4bdb0;margin:1.4rem 0;font-style:italic}
+.r-actions{display:flex;flex-direction:column;gap:.7rem;align-items:center}
+.link{font-size:.8rem;color:var(--dim);cursor:pointer;margin-top:.3rem;border-bottom:1px solid transparent;padding-bottom:2px}
+.link:hover{border-color:var(--dim)}
+
+/* trend page */
+.trendwrap{flex:1;overflow-y:auto;padding-top:1rem}
+.trend-h{font-family:'Fraunces',serif;font-weight:300;font-size:1.8rem;margin-bottom:.3rem}
+.trend-sub{font-size:.8rem;color:var(--dim);margin-bottom:1.8rem}
+.tcard{border:1px solid var(--line);border-radius:14px;padding:1.1rem 1.2rem;margin-bottom:1rem}
+.tcard h4{font-family:'Fraunces',serif;font-weight:400;font-size:1rem;margin-bottom:.2rem;display:flex;justify-content:space-between}
+.tcard h4 b{color:var(--go);font-weight:400}
+.tcard .meta{font-size:.72rem;color:var(--dim);margin-bottom:.9rem}
+.spark{width:100%;height:54px}
+.empty{text-align:center;color:var(--dim);font-size:.86rem;line-height:1.8;padding:3rem 1rem}
+
+/* login */
+.login{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.login h2{font-family:'Fraunces',serif;font-weight:300;font-size:2rem;margin-bottom:.8rem}
+.login p{font-size:.9rem;color:var(--dim);line-height:1.7;max-width:28ch;margin-bottom:2rem}
+.authbtn{display:flex;align-items:center;justify-content:center;gap:.7rem;width:min(280px,80vw);padding:.85rem;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02);cursor:pointer;margin-bottom:.8rem;font-size:.92rem;
+  transition:transform .3s var(--spring-out),border-color .25s,background .25s;will-change:transform}
+.authbtn:hover{border-color:#52492f;background:rgba(255,255,255,.04);transform:translateY(-1px)}
+.authbtn:active{transform:translateY(0) scale(.98);transition-duration:.08s}
+.authnote{font-size:.72rem;color:var(--dim);margin-top:1.2rem;line-height:1.6;max-width:26ch}
+.skip{margin-top:1.5rem;font-size:.82rem;color:var(--dim);cursor:pointer;border-bottom:1px solid transparent}
+.skip:hover{border-color:var(--dim)}
+</style>
+</head>
+<body>
+<canvas id="noise"></canvas>
+<div class="sound" id="soundBtn" title="Sound"></div>
+<div class="app">
+
+  <!-- HOME -->
+  <section class="screen on" id="home">
+    <div class="brand">
+      <div class="zh" id="brandZh"></div>
+      <div class="en" id="brandEn"></div>
+    </div>
+    <p class="tagline" id="tagline"></p>
+    <div class="profilebar" id="profilebar"></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <!-- GAME -->
+  <section class="screen" id="game">
+    <div class="top">
+      <div class="back" onclick="App.home()">‹</div>
+      <div class="gtitle" id="g-title"></div>
+      <div class="livestat" id="g-live"></div>
+    </div>
+    <div class="timebar" id="timebar" style="visibility:hidden"><i id="timefill"></i></div>
+    <div class="gbody" id="gbody"></div>
+  </section>
+
+  <!-- TREND -->
+  <section class="screen" id="trend">
+    <div class="top"><div class="back" onclick="App.home()">‹</div><div class="gtitle" id="trendTitle"></div><div style="width:2rem"></div></div>
+    <div class="trendwrap" id="trendwrap"></div>
+  </section>
+
+  <!-- LOGIN -->
+  <section class="screen" id="login">
+    <div class="top"><div class="back" onclick="App.home()">‹</div><div class="gtitle" id="loginTitle"></div><div style="width:2rem"></div></div>
+    <div class="login">
+      <h2 id="loginH"></h2>
+      <p id="loginP"></p>
+      <div class="authbtn" onclick="Auth.mock('google')">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.8H9v3.4h4.8c-.2 1.1-.8 2-1.8 2.6v2.2h2.9c1.7-1.6 2.7-3.9 2.7-6.4z"/><path fill="#34A853" d="M9 18c2.4 0 4.5-.8 6-2.2l-2.9-2.2c-.8.5-1.8.9-3.1.9-2.4 0-4.4-1.6-5.1-3.8H.9v2.3C2.4 15.9 5.5 18 9 18z"/><path fill="#FBBC05" d="M3.9 10.7c-.2-.5-.3-1.1-.3-1.7s.1-1.2.3-1.7V5H.9C.3 6.2 0 7.5 0 9s.3 2.8.9 4l3-2.3z"/><path fill="#EA4335" d="M9 3.6c1.3 0 2.5.5 3.4 1.3l2.6-2.6C13.5.9 11.4 0 9 0 5.5 0 2.4 2.1.9 5l3 2.3C4.6 5.2 6.6 3.6 9 3.6z"/></svg>
+        <span id="loginGoogle"></span>
+      </div>
+      <div class="authbtn" onclick="Auth.mock('wechat')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#09BB07"><path d="M8.7 3C4.4 3 1 5.9 1 9.5c0 2 1.1 3.8 2.8 5L3 17l2.6-1.4c.9.3 1.9.4 3 .4h.4c-.1-.5-.2-1-.2-1.5 0-3.3 3.2-6 7.1-6h.6C15.8 5.1 12.6 3 8.7 3z"/><path d="M23 14.4c0-2.9-2.9-5.3-6.4-5.3s-6.4 2.4-6.4 5.3 2.9 5.3 6.4 5.3c.7 0 1.4-.1 2.1-.3l1.9 1-.5-1.7c1.4-1 2.3-2.4 2.3-3.3z"/></svg>
+        <span id="loginWechat"></span>
+      </div>
+      <p class="authnote" id="loginNote"></p>
+      <div class="skip" id="loginSkip" onclick="App.home()"></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- AdSense Anchor Ad (fixed bottom, mobile-style) -->
+<div class="anchor-ad" id="anchorAd">
+  <button class="anchor-ad-close" id="anchorAdClose" aria-label="Close ad">×</button>
+  <div class="anchor-ad-label">Ad</div>
+  <div class="anchor-ad-content">
+    <div class="anchor-ad-img"></div>
+    <div class="anchor-ad-tx">
+      <div class="anchor-ad-title">Your ad here</div>
+      <div class="anchor-ad-desc">AdSense 320×50 anchor · sample placeholder</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===================== i18n ===================== */
+const I18N = {
+  zh: {
+    brand: '换换脑子',
+    motto: 'A BREATHER, NOT A FEED',
+    tagline: '想刷一下的时候，点开这里。花一分钟把注意力收回来，然后回去做事。',
+    accLocal: '记录已存在本机',
+    accLogin: '登录以跨设备保存',
+    accSynced: '进度已同步',
+    accLogout: '退出',
+    trendLink: '看看我的进步',
+    footerRights: '© 2026 Wisentech. 保留所有权利。',
+    footerPrivacy: '隐私政策',
+    footerTerms: '服务条款',
+    bmc: '请我喝杯咖啡',
+    soon: '即将',
+    best: '最好成绩',
+    timeLabel: '时长',
+    countLabel: '次',
+    backHome: '回去做事 ›',
+    again: '再练一次',
+    deltaUp: '比上次',
+    deltaDown: '较上次',
+    trendH: '我的进步',
+    trendSub: '只给你自己看 · 没有排名 · 没有连续天数的压力',
+    trendCount: n => `练了 ${n} 次`,
+    trendBest: '最好',
+    trendEmpty: '还没有记录。<br>去练一两局，这里就会画出你的曲线。<br><br>记录只存在这台设备上，<br>登录后才会跨设备保存。',
+    loginH: '跨设备保存进步',
+    loginP: '你的记录已经存在这台设备上了。<br>登录只是为了换手机、清缓存后还能找回它——完全可选。',
+    loginGoogle: '使用 Google 登录',
+    loginWechat: '微信登录（小程序端）',
+    loginNote: '演示版：点击为模拟登录，不会真的跳转授权。真实 OAuth 需配置后端与域名。',
+    loginSkip: '暂不登录，继续用',
+    syncing: '同步',
+    tapHint: '按 <kbd>空格</kbd> 或点屏幕响应',
+    sec: 45,
+    games: {
+      gng: { name: 'Go / No-Go', desc: '反应抑制', how: '看到数字就点 · 唯独看到 3 别动' },
+      stroop: { name: '斯特鲁普效应', desc: '抗干扰', how: '选字的颜色 · 别读字' },
+      anchor: { name: '专注力锚', desc: '走神拉回', how: '盯住一个点 · 走神了就拉回来' },
+      nback: { name: 'N-back', desc: '工作记忆', how: '和上一个相同就点 · 不同别动' },
+      search: { name: '视觉搜索', desc: '选择性注意', how: '找出那个不一样的 · 点它' },
+      breath: { name: '呼吸调节', desc: '平静下来', how: '跟着圆圈呼吸 · 4-7-8 节奏' },
+    },
+    gngRules: { h: 'Go / No-Go', p: '数字一个个出现，<b style="color:var(--go)">看到就点</b>一下。<br>但只要出现 <b style="color:var(--warn)">3</b>，就<b style="color:var(--warn)">忍住别动</b>。', hint: '练的是"刹车"——在习惯动作发生前停住', tapHint: '按 <kbd>空格</kbd> 或点屏幕 · 看到 3 别动' },
+    gngDemo: [['7','点 ✓'],['3','别动 ✓'],['5','点 ✓']],
+    gngEnd: { eyebrow: 'Go / No-Go · 本次', s1: '正确率', s2: '抑制成功', s3: '反应', good: '"刹车"很稳。这一下，正是刷短视频时缺的那个停顿。', mid: '不错。专注不在于快，在于错了能马上回到节奏。', bad: '抢按多了点——下次慢半拍，让点击变成选择，而不是反射。' },
+    stroopRules: { h: '斯特鲁普效应', label: '字写的是"红"，但它是<b style="color:#6fa368">绿色</b>的 → 选绿', p: '屏幕出现一个字。<br>无视它写的是什么，<b style="color:var(--go)">只选它的颜色</b>。', hint: '读字是本能，看颜色要克制 —— 斯特鲁普效应' },
+    stroopQ: '点击「字的颜色」',
+    stroopColors: [['红','#cf5a4a'],['绿','#6fa368'],['黄','#d4b14a'],['蓝','#5a86c4']],
+    stroopEnd: { eyebrow: '斯特鲁普效应 · 本次', s1: '正确率', s2: '答题数', s3: '干扰拖慢', good: '干扰几乎没拖慢你——抗干扰能力很在线。', mid: '稳住了。能在干扰里锁定目标，工作时也是这个能力。', bad: '被字义带跑了几次，正常。这正是要练的那块肌肉。' },
+    nbackRules: { h: 'N-back', p: '数字一个个出现。<br>如果当前数字<b style="color:var(--go)">和上一个相同</b>，点屏幕。<br>不同就<b style="color:var(--warn)">别动</b>。', hint: '同时记住"刚才"和盯住"现在" —— 工作记忆训练', tapHint: '和「刚才」相同 → 按 <kbd>空格</kbd> 或点屏幕', prevLabel: '刚才' },
+    nbackDemoMatch: '和上一个相同 · 点!',
+    nbackEnd: { eyebrow: 'N-back · 本次', s1: '正确率', s2: '匹配命中', s3: '误点', good: '抓住了"刚才"和"现在"的同时 —— 工作记忆很稳。', mid: '感觉对了。"记住上一个"这件事，正是被碎片信息磨损得最厉害的能力。', bad: '漏了几次匹配，正常。N-back 是最累的注意力训练之一，越练越好。' },
+    searchRules: { h: '视觉搜索', label: '找到那个不同的，点它', p: '每一题里都有<b style="color:var(--go)">一个</b>和其他不一样的字母。<br>找出来，点它。', hint: '主动扫描，抑制乱看 —— 选择性注意' },
+    searchQ: '找出那个不同的',
+    searchEnd: { eyebrow: '视觉搜索 · 本次', s1: '正确率', s2: '平均用时', s3: '题数', good: '眼到、手到、心到 —— 注意力很集中。', mid: '稳。主动扫描比被动等内容跳出来累，但这才是真正的"看"。', bad: '被干扰拽走了几次。下一次试着用"扫"而不是"瞟"。' },
+    breathRules: { h: '呼吸调节', p: '跟着圆圈呼吸 —— <b style="color:var(--go)">吸 4 秒、屏 7 秒、呼 8 秒</b>。<br>呼气更长，让神经放松下来。', hint: '不是练专注，是把烦躁压下去 —— 给专注创造前提<br><span style="color:var(--go)">▸ 建议打开声音</span>' },
+    breathPick: '选一种背景音',
+    breathPickOpts: [['waves','海浪'],['bamboo','竹林风'],['none','安静']],
+    breathPhases: { in: '吸', hold: '屏', out: '呼' },
+    breathCycle: (c, t) => `循环 ${c} / ${t}`,
+    breathEnd: { eyebrow: '呼吸调节 · 本次', s1: '完成循环', s2: '时长', dur: '约 2 分钟', good: '身体慢下来了。烦躁退潮，专注才有可能站上来。' },
+    rulesStart: '明白了，开始',
+    rulesStartShort: '开始',
+  },
+  en: {
+    brand: 'Brain Stretch',
+    motto: 'A BREATHER, NOT A FEED',
+    tagline: 'When the urge to scroll hits, open this instead. Spend a minute pulling your attention back, then return to what matters.',
+    accLocal: 'Saved locally',
+    accLogin: 'Sign in to sync across devices',
+    accSynced: 'Synced',
+    accLogout: 'Sign out',
+    trendLink: 'See my progress',
+    footerRights: '© 2026 Wisentech. All rights reserved.',
+    footerPrivacy: 'Privacy',
+    footerTerms: 'Terms',
+    bmc: 'Buy me a coffee',
+    soon: 'SOON',
+    best: 'Best',
+    timeLabel: 'Duration',
+    countLabel: '',
+    backHome: 'Back to work ›',
+    again: 'Once more',
+    deltaUp: 'vs last',
+    deltaDown: 'vs last',
+    trendH: 'My Progress',
+    trendSub: 'Just for you · No ranking · No streak pressure',
+    trendCount: n => `${n} sessions`,
+    trendBest: 'Best',
+    trendEmpty: 'No records yet.<br>Try a round or two — your curve will appear here.<br><br>Records live only on this device.<br>Sign in to keep them across devices.',
+    loginH: 'Save progress across devices',
+    loginP: 'Your records already live on this device.<br>Signing in only helps you keep them when you switch phones or clear cache. Completely optional.',
+    loginGoogle: 'Continue with Google',
+    loginWechat: 'WeChat (mini-program)',
+    loginNote: 'Demo: clicking simulates login. Real OAuth requires backend and domain setup.',
+    loginSkip: 'Skip for now',
+    syncing: 'Sync',
+    tapHint: 'Press <kbd>Space</kbd> or tap to respond',
+    sec: 45,
+    games: {
+      gng: { name: 'Go / No-Go', desc: 'Response inhibition', how: 'Tap any number · except 3' },
+      stroop: { name: 'Stroop Effect', desc: 'Interference control', how: 'Tap the ink color · not the word' },
+      anchor: { name: 'Focused Attention', desc: 'Catch the drift', how: 'Hold on the dot · return when you wander' },
+      nback: { name: 'N-back', desc: 'Working memory', how: 'Tap if same as last · ignore if different' },
+      search: { name: 'Visual Search', desc: 'Selective attention', how: 'Find the odd one · tap it' },
+      breath: { name: 'Breathing', desc: 'Settle down', how: 'Breathe with the orb · 4-7-8 rhythm' },
+    },
+    gngRules: { h: 'Go / No-Go', p: 'Numbers will appear one by one. <b style="color:var(--go)">Tap each</b> as it shows up.<br>But if you see <b style="color:var(--warn)">3</b>, <b style="color:var(--warn)">hold still</b>.', hint: 'Training the brake — stopping before the habit fires', tapHint: 'Press <kbd>Space</kbd> or tap · hold on 3' },
+    gngDemo: [['7','Tap ✓'],['3','Hold ✓'],['5','Tap ✓']],
+    gngEnd: { eyebrow: 'Go / No-Go · this round', s1: 'Accuracy', s2: 'Inhibition', s3: 'Reaction', good: 'Solid brake. That tiny pause is exactly what scrolling erases.', mid: 'Good. Focus isn\'t about speed — it\'s recovering after a miss.', bad: 'A bit trigger-happy. Slow down half a beat next time — make the tap a choice, not a reflex.' },
+    stroopRules: { h: 'Stroop Effect', label: 'The word says "red" but the ink is <b style="color:#6fa368">green</b> → tap green', p: 'A word will appear.<br>Ignore what it says — <b style="color:var(--go)">tap the color of the ink</b>.', hint: 'Reading is automatic. Color naming takes effort — the Stroop effect' },
+    stroopQ: 'Tap the INK color',
+    stroopColors: [['Red','#cf5a4a'],['Green','#6fa368'],['Yellow','#d4b14a'],['Blue','#5a86c4']],
+    stroopEnd: { eyebrow: 'Stroop Effect · this round', s1: 'Accuracy', s2: 'Trials', s3: 'Interference', good: 'Interference barely slowed you down — strong control.', mid: 'Steady. Holding a target through noise is the same muscle you need at work.', bad: 'The word meaning pulled you a few times. Normal — that\'s the muscle to train.' },
+    nbackRules: { h: 'N-back', p: 'Numbers appear one by one.<br>If the current number is <b style="color:var(--go)">the same as the previous one</b>, tap.<br>If different, <b style="color:var(--warn)">hold still</b>.', hint: 'Hold "just now" while watching "now" — working memory', tapHint: 'Same as "previous" → press <kbd>Space</kbd> or tap', prevLabel: 'PREVIOUS' },
+    nbackDemoMatch: 'Same as previous · tap!',
+    nbackEnd: { eyebrow: 'N-back · this round', s1: 'Accuracy', s2: 'Hit rate', s3: 'False alarms', good: 'Holding "just now" while watching "now" — working memory locked in.', mid: 'You felt the rhythm. Holding the previous item is exactly what fragmented content erodes.', bad: 'Missed a few matches — N-back is among the heaviest attention tasks. It gets easier.' },
+    searchRules: { h: 'Visual Search', label: 'Find the one that\'s different — tap it', p: 'Each round hides <b style="color:var(--go)">one letter</b> different from the rest.<br>Find it. Tap it.', hint: 'Active scan, suppress wandering — selective attention' },
+    searchQ: 'Find the different one',
+    searchEnd: { eyebrow: 'Visual Search · this round', s1: 'Accuracy', s2: 'Avg time', s3: 'Trials', good: 'Eye, hand, mind — all aligned.', mid: 'Steady. Active scanning is heavier than passive viewing, but it\'s the real act of seeing.', bad: 'Got pulled by distractors. Try "scanning" instead of "glancing" next time.' },
+    breathRules: { h: 'Breathing', p: 'Breathe with the orb — <b style="color:var(--go)">inhale 4s, hold 7s, exhale 8s</b>.<br>Long exhales release the nervous system.', hint: 'Not focus training — calming agitation, so focus has a chance.<br><span style="color:var(--go)">▸ Turn sound on</span>' },
+    breathPick: 'Pick a sound',
+    breathPickOpts: [['waves','Waves'],['bamboo','Bamboo wind'],['none','Silence']],
+    breathPhases: { in: 'In', hold: 'Hold', out: 'Out' },
+    breathCycle: (c, t) => `Cycle ${c} / ${t}`,
+    breathEnd: { eyebrow: 'Breathing · this round', s1: 'Cycles', s2: 'Duration', dur: '~2 min', good: 'The body slowed. As agitation recedes, focus has a chance to return.' },
+    rulesStart: 'Got it, begin',
+    rulesStartShort: 'Begin',
+  }
+};
+
+let LANG = (navigator.language || 'en').slice(0, 2);
+if (!I18N[LANG]) LANG = 'en';
+let T = I18N[LANG];
+function setLang(code) {
+  if (!I18N[code]) return;
+  LANG = code; T = I18N[code];
+  try { localStorage.setItem('lull_lang', code); } catch(e){}
+  // re-render visible screens
+  document.documentElement.lang = code;
+  renderHome();
+}
+try { const saved = localStorage.getItem('lull_lang'); if (saved && I18N[saved]) { LANG = saved; T = I18N[saved]; } } catch(e){}
+document.documentElement.lang = LANG;
+
+/* ===================== AUDIO ENGINE (Web Audio, no files) ===================== */
+const Sound={
+  ctx:null, on:true, noiseNode:null, noiseGain:null,
+  init(){ if(this.ctx)return; try{this.ctx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){} },
+  resume(){ if(this.ctx&&this.ctx.state==='suspended')this.ctx.resume(); },
+  // short click "tick" — woodblock-ish
+  click(){ if(!this.on||!this.ctx)return; this.resume();
+    const t=this.ctx.currentTime, o=this.ctx.createOscillator(), g=this.ctx.createGain();
+    o.type='triangle'; o.frequency.setValueAtTime(420,t); o.frequency.exponentialRampToValueAtTime(180,t+.06);
+    g.gain.setValueAtTime(.18,t); g.gain.exponentialRampToValueAtTime(.001,t+.09);
+    o.connect(g).connect(this.ctx.destination); o.start(t); o.stop(t+.1);
+  },
+  good(){ if(!this.on||!this.ctx)return; this.resume();
+    const t=this.ctx.currentTime;[660,990].forEach((f,i)=>{const o=this.ctx.createOscillator(),g=this.ctx.createGain();
+      o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t+i*.05);g.gain.linearRampToValueAtTime(.12,t+i*.05+.01);
+      g.gain.exponentialRampToValueAtTime(.001,t+i*.05+.18);o.connect(g).connect(this.ctx.destination);o.start(t+i*.05);o.stop(t+i*.05+.2);});
+  },
+  bad(){ if(!this.on||!this.ctx)return; this.resume();
+    const t=this.ctx.currentTime,o=this.ctx.createOscillator(),g=this.ctx.createGain();
+    o.type='sawtooth';o.frequency.setValueAtTime(160,t);o.frequency.exponentialRampToValueAtTime(70,t+.18);
+    g.gain.setValueAtTime(.14,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);
+    o.connect(g).connect(this.ctx.destination);o.start(t);o.stop(t+.24);
+  },
+  // ambient: 'waves' or 'bamboo' — filtered noise, slowly modulated
+  startAmbient(kind){ if(!this.ctx)return; this.resume(); this.stopAmbient();
+    const bufSize=this.ctx.sampleRate*2, buf=this.ctx.createBuffer(1,bufSize,this.ctx.sampleRate), d=buf.getChannelData(0);
+    for(let i=0;i<bufSize;i++)d[i]=Math.random()*2-1;
+    const src=this.ctx.createBufferSource(); src.buffer=buf; src.loop=true;
+    const filter=this.ctx.createBiquadFilter();
+    const g=this.ctx.createGain(); g.gain.value=0;
+    if(kind==='waves'){ filter.type='lowpass'; filter.frequency.value=500;
+      // slow swell LFO on gain to mimic waves
+      const lfo=this.ctx.createOscillator(), lg=this.ctx.createGain();
+      lfo.frequency.value=0.12; lg.gain.value=.06; lfo.connect(lg).connect(g.gain); lfo.start(); this._lfo=lfo;
+      g.gain.value=.10;
+    } else { // bamboo wind: higher, airier
+      filter.type='bandpass'; filter.frequency.value=1200; filter.Q.value=.6;
+      const lfo=this.ctx.createOscillator(), lg=this.ctx.createGain();
+      lfo.frequency.value=0.2; lg.gain.value=400; lfo.connect(lg).connect(filter.frequency); lfo.start(); this._lfo=lfo;
+      g.gain.value=.07;
+    }
+    src.connect(filter).connect(g).connect(this.ctx.destination); src.start();
+    this.noiseNode=src; this.noiseGain=g;
+  },
+  stopAmbient(){ try{ if(this.noiseNode){this.noiseGain.gain.linearRampToValueAtTime(0,this.ctx.currentTime+.4);
+    const n=this.noiseNode;setTimeout(()=>{try{n.stop();}catch(e){}},450);this.noiseNode=null;}
+    if(this._lfo){try{this._lfo.stop();}catch(e){}this._lfo=null;} }catch(e){} },
+  toggle(){ this.on=!this.on; if(!this.on)this.stopAmbient(); renderSoundBtn(); }
+};
+function buzz(ms){ if(navigator.vibrate)navigator.vibrate(ms); } // H5 vibration (Android/WeChat; iOS Safari unsupported)
+
+const ICON_ON='<svg viewBox="0 0 24 24" fill="none" stroke="#c9b88a" stroke-width="1.5"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7M18.5 5.5a9 9 0 010 13"/></svg>';
+const ICON_OFF='<svg viewBox="0 0 24 24" fill="none" stroke="#7a746a" stroke-width="1.5"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>';
+function renderSoundBtn(){ document.getElementById('soundBtn').innerHTML=Sound.on?ICON_ON:ICON_OFF; }
+
+/* ===================== STORAGE (local, login-free) ===================== */
+// To make this REAL persistence outside Claude artifacts, swap _mem for localStorage:
+//   const store={get:k=>JSON.parse(localStorage.getItem(k)||'null'), set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+const _mem={};
+const store={ get:k=>_mem[k]??null, set:(k,v)=>{_mem[k]=v;} };
+const DB={
+  add(game,score){ const k='scores_'+game; const arr=store.get(k)||[]; arr.push({t:Date.now(),v:score}); store.set(k,arr); return arr; },
+  all(game){ return store.get('scores_'+game)||[]; },
+  best(game){ const a=this.all(game); return a.length?Math.max(...a.map(x=>x.v)):null; },
+  last(game){ const a=this.all(game); return a.length?a[a.length-1].v:null; },
+  prev(game){ const a=this.all(game); return a.length>1?a[a.length-2].v:null; },
+};
+
+/* ===================== APP / ROUTER ===================== */
+const $=s=>document.querySelector(s);
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+
+const GAMES=[
+  {id:'gng',title:'Go / No-Go',name:'Go / No-Go',desc:'反应抑制',how:'看到数字就点 · 唯独看到 3 别动',live:true,unit:'%',
+   icon:'<svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="13" stroke="#c9b88a" stroke-width="1.3"/><circle cx="19" cy="19" r="4" fill="#c9b88a"/></svg>'},
+  {id:'stroop',title:'Stroop',name:'斯特鲁普效应',desc:'抗干扰',how:'选字的颜色 · 别读字',live:true,unit:'%',
+   icon:'<svg width="38" height="38" viewBox="0 0 38 38"><text x="19" y="25" font-size="20" fill="#86a37d" text-anchor="middle" font-family="serif">红</text></svg>'},
+  {id:'breath',title:'Breathing',name:'呼吸调节',desc:'平静下来',how:'跟着圆圈呼吸 · 4-7-8 节奏',live:true,unit:'',
+   icon:'<svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="14" stroke="#c9b88a" stroke-width="1.2" opacity=".5"/><circle cx="19" cy="19" r="8" stroke="#c9b88a" stroke-width="1.2"/><circle cx="19" cy="19" r="3" fill="#c9b88a"/></svg>'},
+  {id:'anchor',title:'Focused Attention',name:'专注力锚',desc:'走神拉回',how:'盯住一个点 · 走神了就拉回来',live:false,
+   icon:'<svg width="38" height="38" viewBox="0 0 38 38"><circle cx="19" cy="19" r="6" fill="#c9b88a"/><circle cx="19" cy="19" r="13" stroke="#46402f" stroke-width="1"/></svg>'},
+  {id:'search',title:'Visual Search',name:'视觉搜索',desc:'选择性注意',how:'找出那个不一样的 · 点它',live:true,unit:'%',
+   icon:'<svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="11" cy="11" r="2" fill="#46402f"/><circle cx="19" cy="11" r="2" fill="#46402f"/><circle cx="27" cy="11" r="2" fill="#46402f"/><circle cx="11" cy="19" r="2" fill="#46402f"/><circle cx="19" cy="19" r="3" fill="#c9b88a"/><circle cx="27" cy="19" r="2" fill="#46402f"/><circle cx="11" cy="27" r="2" fill="#46402f"/><circle cx="19" cy="27" r="2" fill="#46402f"/><circle cx="27" cy="27" r="2" fill="#46402f"/></svg>'},
+  {id:'nback',title:'N-back',name:'N-back',desc:'工作记忆',how:'和上一个相同就点 · 不同别动',live:true,unit:'%',
+   icon:'<svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="13" cy="19" r="3" fill="#7a746a"/><circle cx="25" cy="19" r="3" fill="#c9b88a"/><path d="M16 19 L22 19" stroke="#46402f" stroke-width="1.2"/></svg>'},
+];
+
+let USER=null;
+const App={
+  home(){ clearAll(); Sound.stopAmbient(); show('home'); renderHome(); },
+  open(id){ const g=GAMES.find(x=>x.id===id); if(!g||!g.live)return; Sound.init(); Sound.click();
+    show('game'); $('#g-title').textContent=g.title; $('#g-live').textContent=''; $('#timebar').style.visibility='hidden';
+    ({gng:GNG,stroop:Stroop,anchor:Anchor,nback:NBack,search:VSearch,breath:Breath})[id].rules(); },
+  trend(){ Sound.click(); show('trend'); $('#trendTitle').textContent=T.trendH; renderTrend(); },
+  login(){ Sound.click(); show('login');
+    $('#loginTitle').textContent=T.syncing;
+    $('#loginH').textContent=T.loginH;
+    $('#loginP').innerHTML=T.loginP;
+    $('#loginGoogle').textContent=T.loginGoogle;
+    $('#loginWechat').textContent=T.loginWechat;
+    $('#loginNote').textContent=T.loginNote;
+    $('#loginSkip').textContent=T.loginSkip;
+  }
+};
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on')); $('#'+id).classList.add('on'); }
+
+const Auth={ mock(provider){ USER=provider==='google'?'G':'微'; Sound.good(); buzz(20); App.home(); } };
+
+function renderHome(){
+  // brand + tagline from i18n
+  $('#brandZh').textContent = T.brand;
+  $('#brandEn').textContent = T.motto;
+  $('#tagline').innerHTML = T.tagline;
+  // profile bar → "看看我的进步" (替换原登录位置)
+  const pb=$('#profilebar'); pb.innerHTML='';
+  const prog=el('a','trendlink-top','');
+  prog.innerHTML=`<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 10L5 6L8 9L13 3" stroke="#c9b88a" stroke-width="1.3"/></svg><span>${T.trendLink}</span>`;
+  prog.onclick=()=>App.trend();
+  pb.appendChild(prog);
+  // cards
+  const cw=$('#cards'); cw.innerHTML='';
+  GAMES.forEach(g=>{
+    const t = T.games[g.id] || { name: g.name, desc: g.desc, how: g.how };
+    const c=el('div','card '+(g.live?'live':'locked'));
+    const best=g.live?DB.best(g.id):null;
+    c.innerHTML=`<div class="ic">${g.icon||''}</div>
+      <div class="tx"><h3>${t.name}</h3><p>${t.desc}${t.how?` <span class="how">${t.how}</span>`:''}</p>
+        ${best!=null?`<div class="best">${T.best} ${best}${g.unit}</div>`:''}</div>
+      ${g.live?'':'<div class="soon">'+T.soon+'</div>'}`;
+    if(g.live)c.onclick=()=>App.open(g.id);
+    cw.appendChild(c);
+  });
+  // footer: BMC only (进步已挪到顶部)
+  const footer=el('div','cards-footer');
+  const bmc=el('a','bmc','');
+  bmc.href='https://www.buymeacoffee.com/wisentech'; bmc.target='_blank'; bmc.rel='noopener';
+  bmc.innerHTML=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg><span>${T.bmc}</span>`;
+  footer.appendChild(bmc);
+  const legal=el('div','legal');
+  legal.innerHTML=`<div class="links"><a href="privacy.html">${T.footerPrivacy}</a><span class="dot">·</span><a href="terms.html">${T.footerTerms}</a></div><div class="rights">${T.footerRights}</div>`;
+  footer.appendChild(legal);
+  cw.appendChild(footer);
+}
+
+/* ===================== shared helpers ===================== */
+function lead(body,go){ let k=3;
+  const tick=()=>{ body.innerHTML=''; body.appendChild(el('div','countbig',k)); Sound.click(); k--;
+    if(k<0)go(); else window._to=setTimeout(tick,750); };
+  tick();
+}
+function timer(sec,onEnd){ $('#timebar').style.visibility='visible';
+  const fill=$('#timefill'); fill.style.transition='none'; fill.style.width='100%'; void fill.offsetWidth;
+  fill.style.transition=`width ${sec}s linear`; fill.style.width='0%';
+  window._to2=setTimeout(onEnd,sec*1000);
+}
+function clearAll(){ clearTimeout(window._to);clearTimeout(window._to2);clearTimeout(window._to3);clearInterval(window._loop);
+  if(window._key){document.removeEventListener('keydown',window._key);window._key=null;}
+  $('#gbody').onpointerdown=null; }
+
+function spawnRipple(parent,x,y){ const r=el('div','ripple');
+  if(x!=null){r.style.left=(x-20)+'px';r.style.top=(y-20)+'px';r.style.position='absolute';}
+  parent.appendChild(r); setTimeout(()=>r.remove(),500); }
+
+function result({eyebrow,big,stats,handoff,gameId,scoreVal}){
+  clearAll(); Sound.stopAmbient(); $('#timebar').style.visibility='hidden'; $('#g-live').textContent='';
+  let deltaHtml='';
+  if(scoreVal!=null){ const prev=DB.prev(gameId); DB.add(gameId,scoreVal);
+    if(prev!=null){ const d=scoreVal-prev; deltaHtml=d>=0?`<div class="delta up">↑ ${T.deltaUp} +${d}</div>`:`<div class="delta down">${T.deltaDown} ${d}</div>`; } }
+  const b=$('#gbody'); b.innerHTML='';
+  const r=el('div','result');
+  r.innerHTML=`<div class="r-eyebrow">${eyebrow}</div><div class="r-big">${big}</div>
+    <div class="r-grid">${stats.map(s=>`<div><span>${s[0]}</span><b>${s[1]}</b></div>`).join('')}</div>
+    ${deltaHtml}<div class="handoff">${handoff}</div>`;
+  const acts=el('div','r-actions');
+  const home=el('button','btn primary',T.backHome); home.onclick=()=>App.home();
+  const again=el('div','link',T.again); again.onclick=()=>App.open(gameId);
+  acts.appendChild(home); acts.appendChild(again); r.appendChild(acts); b.appendChild(r);
+  Sound.good();
+}
+
+const SEC=45;  // game duration in seconds
+
+/* ===================== GAME 1 · GO/NO-GO ===================== */
+const GNG={
+  rules(){ const b=$('#gbody');b.innerHTML='';
+    const r=el('div','rules');
+    const R=T.gngRules;
+    r.innerHTML=`<h2>${R.h}</h2><div class="demo" id="gng-demo"></div>
+      <p>${R.p}</p>
+      <div class="hint">${R.hint}</div>`;
+    b.appendChild(r);
+    const btn=el('button','btn primary',T.rulesStart); btn.onclick=()=>GNG.start(); r.appendChild(btn);
+    const d=$('#gng-demo');let i=0;
+    const demo=T.gngDemo;
+    const colors=['var(--good)','var(--warn)','var(--good)'];
+    const play=()=>{const[n,l]=demo[i%3];const c=colors[i%3];
+      d.innerHTML=`<div style="font-family:Fraunces;font-size:3.2rem;color:${c}">${n}</div><div style="font-size:.85rem;color:${c};letter-spacing:.1em">${l}</div>`;
+      i++;window._to=setTimeout(play,1100);};play();
+  },
+  start(){ clearAll(); Sound.click(); const b=$('#gbody');b.innerHTML=''; lead(b,()=>GNG.run()); },
+  run(){ const b=$('#gbody');b.innerHTML='';
+    const wrap=el('div','cuewrap'); const ring=el('div','ring'); const g=el('div','glyph','·');
+    wrap.appendChild(ring); wrap.appendChild(g); b.appendChild(wrap);
+    b.appendChild(el('div','tap-hint',T.gngRules.tapHint));
+    let goC=0,goT=0,stopC=0,stopT=0,rts=[],isStop=false,await_=false,shown=0,done=false,resp=false;
+    const T0=performance.now();
+    const updLive=()=>{const tot=goT+stopT;if(tot)$('#g-live').textContent=Math.round((goC+stopC)/tot*100)+'%';};
+    function next(){ if(done)return;
+      isStop=Math.random()<.27; const n=isStop?3:[1,2,4,5,6,7,8,9][Math.floor(Math.random()*8)];
+      await_=true;resp=false; g.textContent=n;g.style.opacity=1;g.style.color='var(--ink)';g.style.transform='scale(1)';
+      shown=performance.now(); isStop?stopT++:goT++;
+      window._to=setTimeout(resolve,Math.max(560,820-(performance.now()-T0)/120));
+    }
+    function respond(){ if(!await_||resp||done)return; resp=true; spawnRipple(wrap);
+      if(isStop){ring.className='ring bad';g.style.color='var(--warn)';Sound.bad();buzz([30,40,30]);}
+      else{ring.className='ring ok';goC++;rts.push(performance.now()-shown);Sound.click();buzz(15);}
+      setTimeout(()=>ring.className='ring',280); updLive();
+    }
+    function resolve(){ await_=false; if(isStop&&!resp){stopC++;} updLive(); g.style.opacity=.12; window._to=setTimeout(next,330); }
+    function end(){ done=true;
+      const inhib=stopT?Math.round(stopC/stopT*100):100;
+      const rt=rts.length?Math.round(rts.reduce((a,c)=>a+c,0)/rts.length):0;
+      const acc=Math.round(((goC+stopC)/(goT+stopT))*100)||0;
+      const E=T.gngEnd;
+      let h; if(inhib>=85)h=E.good; else if(inhib<60)h=E.bad; else h=E.mid;
+      result({eyebrow:E.eyebrow,big:acc+'%',
+        stats:[[E.s1,acc+'%'],[E.s2,inhib+'%'],[E.s3,rt+'ms']],handoff:h,gameId:'gng',scoreVal:acc});
+    }
+    window._key=e=>{if(e.code==='Space'){e.preventDefault();respond();}};
+    document.addEventListener('keydown',window._key); $('#gbody').onpointerdown=respond;
+    timer(SEC,end); next();
+  }
+};
+
+/* ===================== GAME 2 · STROOP ===================== */
+const Stroop={
+  rules(){ const b=$('#gbody');b.innerHTML='';
+    const r=el('div','rules');
+    const R=T.stroopRules;
+    const demoWord=T.stroopColors[0][0]; // first word
+    r.innerHTML=`<h2>${R.h}</h2>
+      <div class="demo"><div style="font-family:'Noto Serif SC';font-weight:500;font-size:3.5rem;color:#6fa368">${demoWord}</div>
+      <div style="font-size:.85rem;color:var(--dim)">${R.label}</div></div>
+      <p>${R.p}</p>
+      <div class="hint">${R.hint}</div>`;
+    b.appendChild(r);
+    const btn=el('button','btn primary',T.rulesStart); btn.onclick=()=>Stroop.start(); r.appendChild(btn);
+  },
+  start(){ clearAll(); Sound.click(); const b=$('#gbody');b.innerHTML=''; lead(b,()=>Stroop.run()); },
+  run(){ const b=$('#gbody');b.innerHTML='';
+    const lab=el('div','qlabel',T.stroopQ); const word=el('div','stroopword',T.stroopColors[0][0]); const sw=el('div','swatches');
+    b.appendChild(lab);b.appendChild(word);b.appendChild(sw);
+    const C=T.stroopColors; let inkColor,total=0,correct=0,conRT=[],neuRT=[],shown=0,conflict=false,done=false;
+    C.forEach(([nm,hex])=>{const s=el('div','swatch');s.style.background=hex;s.dataset.hex=hex;s.onclick=()=>pick(hex,s);sw.appendChild(s);});
+    const updLive=()=>{if(total)$('#g-live').textContent=Math.round(correct/total*100)+'%';};
+    function nextWord(){ if(done)return; const wi=Math.floor(Math.random()*4);
+      let ci=Math.random()<.7?(wi+1+Math.floor(Math.random()*3))%4:wi; conflict=ci!==wi;
+      word.textContent=C[wi][0]; word.style.color=C[ci][1]; inkColor=C[ci][1]; shown=performance.now();
+    }
+    function pick(hex,node){ if(done)return; total++; const rt=performance.now()-shown;
+      node.classList.add('flash'); setTimeout(()=>node.classList.remove('flash'),350);
+      if(hex===inkColor){correct++;(conflict?conRT:neuRT).push(rt);word.style.transform='scale(1.1)';setTimeout(()=>word.style.transform='',120);Sound.click();buzz(15);}
+      else{word.style.opacity=.3;setTimeout(()=>word.style.opacity=1,150);Sound.bad();buzz([30,40,30]);}
+      updLive(); nextWord();
+    }
+    function end(){ done=true; const acc=total?Math.round(correct/total*100):0;
+      const cAvg=conRT.length?conRT.reduce((a,c)=>a+c,0)/conRT.length:0;
+      const nAvg=neuRT.length?neuRT.reduce((a,c)=>a+c,0)/neuRT.length:0;
+      const eff=(cAvg&&nAvg)?Math.max(0,Math.round(cAvg-nAvg)):0;
+      const E=T.stroopEnd;
+      let h; if(acc>=90&&eff<150)h=E.good; else if(acc<70)h=E.bad; else h=E.mid;
+      result({eyebrow:E.eyebrow,big:acc+'%',
+        stats:[[E.s1,acc+'%'],[E.s2,total],[E.s3,eff+'ms']],handoff:h,gameId:'stroop',scoreVal:acc});
+    }
+    nextWord(); timer(SEC,end);
+  }
+};
+
+/* ===================== GAME 3 · ANCHOR ===================== */
+const Anchor={
+  rules(){ const b=$('#gbody');b.innerHTML='';
+    const r=el('div','rules');
+    r.innerHTML=`<h2>专注冥想</h2><div class="demo"><div class="anchor" style="width:80px;height:80px;animation-duration:6s"></div></div>
+      <p>盯住这个缓慢呼吸的光点。<br>一旦发现自己走神了，<br><b style="color:var(--go)">轻点"我走神了"再看回来</b>。</p>
+      <div class="hint">不是要你永不走神 —— 是练"多快发现并回来"<br><span style="color:var(--go)">▸ 建议打开声音，跟着海浪呼吸</span></div>`;
+    b.appendChild(r);
+    const btn=el('button','btn primary','开始'); btn.onclick=()=>Anchor.start(); r.appendChild(btn);
+  },
+  start(){ clearAll(); Sound.click(); Sound.init();
+    const b=$('#gbody');b.innerHTML='';
+    // ambient picker
+    const pick=el('div',null); pick.style.cssText='display:flex;flex-direction:column;align-items:center;gap:1.2rem';
+    pick.innerHTML='<div style="font-size:.9rem;color:var(--dim)">选一种背景音陪你呼吸</div>';
+    const row=el('div',null); row.style.cssText='display:flex;gap:.8rem';
+    [['waves','海浪'],['bamboo','竹林风'],['none','安静']].forEach(([k,l])=>{
+      const btn=el('button','wander-btn',l); btn.style.marginTop='0'; btn.onclick=()=>{Sound.click();if(k!=='none'){Sound.startAmbient(k);}Anchor.run();};
+      row.appendChild(btn);
+    });
+    pick.appendChild(row); b.appendChild(pick);
+  },
+  run(){ const b=$('#gbody');b.innerHTML='';
+    const wrap=el('div',null); wrap.style.cssText='display:flex;flex-direction:column;align-items:center';
+    const a=el('div','anchor');
+    const hint=el('div','anchor-hint','跟着它的节奏呼吸。<br>走神了？没关系，按下面，回来就好。');
+    const wb=el('button','wander-btn','· 我走神了 ·');
+    wrap.appendChild(a);wrap.appendChild(hint);wrap.appendChild(wb);b.appendChild(wrap);
+    let wanders=0;
+    wb.onclick=()=>{wanders++;Sound.click();buzz(15);wb.textContent='✓ 回来了（'+wanders+'）';a.style.transform='scale(1.05)';
+      setTimeout(()=>{wb.textContent='· 我走神了 ·';a.style.transform='';},700);};
+    function end(){ let h;
+      if(wanders===0)h='全程在锚上，或者……悄悄走神了没标记？诚实地觉察，本身就是练习。';
+      else if(wanders<=3)h='发现了几次走神，又回来了几次。这一来一回，就是注意力在长。';
+      else h='走神不少，但你每次都拉回来了——这恰恰说明你的觉察很灵敏。';
+      result({eyebrow:'专注冥想 · 本次',big:'✓',stats:[['时长','60s'],['觉察到走神',wanders+' 次']],handoff:h,gameId:'anchor',scoreVal:null});
+    }
+    timer(60,end);
+  }
+};
+
+/* ===================== GAME 4 · N-BACK (1-back) ===================== */
+const NBack={
+  rules(){ const b=$('#gbody');b.innerHTML='';
+    const r=el('div','rules');
+    const R=T.nbackRules;
+    r.innerHTML=`<h2>${R.h}</h2>
+      <div class="demo" id="nb-demo"></div>
+      <p>${R.p}</p>
+      <div class="hint">${R.hint}</div>`;
+    b.appendChild(r);
+    const btn=el('button','btn primary',T.rulesStart); btn.onclick=()=>NBack.start(); r.appendChild(btn);
+    const d=$('#nb-demo'); let i=0;
+    const matchTxt=T.nbackDemoMatch;
+    const seq=[['4','—',false],['7','—',false],['7',matchTxt,true],['2','—',false]];
+    const play=()=>{const[n,l,isMatch]=seq[i%4];
+      d.innerHTML=`<div style="font-family:Fraunces;font-size:3.2rem;color:${isMatch?'var(--good)':'var(--ink)'}">${n}</div>
+        <div style="font-size:.78rem;color:${isMatch?'var(--good)':'var(--dim)'};letter-spacing:.08em">${l}</div>`;
+      i++;window._to=setTimeout(play,1300);};play();
+  },
+  start(){ clearAll(); Sound.click(); const b=$('#gbody');b.innerHTML=''; lead(b,()=>NBack.run()); },
+  run(){ const b=$('#gbody');b.innerHTML='';
+    const wrap=el('div','nb-wrap');
+    const lab=el('div','nb-prev-label',T.nbackRules.prevLabel);
+    const prev=el('div','nb-prev','·');
+    const cur=el('div','nb-glyph','·');
+    wrap.appendChild(lab); wrap.appendChild(prev); wrap.appendChild(cur);
+    b.appendChild(wrap);
+    b.appendChild(el('div','tap-hint',T.nbackRules.tapHint));
+
+    let history=[null], hits=0,hitTotal=0,misses=0,miss=0,fa=0, done=false, awaiting=false, isMatch=false, responded=false;
+    function next(){
+      if(done)return;
+      const last=history[history.length-1];
+      let n;
+      if(last!=null && Math.random()<0.35){ n=last; isMatch=true; hitTotal++; }
+      else {
+        do { n=1+Math.floor(Math.random()*9); } while(last!=null && n===last && Math.random()<0.9);
+        isMatch=(n===last);
+        if(isMatch) hitTotal++;
+      }
+      prev.textContent = last==null?'·':last;
+      cur.textContent=n; cur.style.opacity=1; cur.style.color='var(--ink)';
+      history.push(n);
+      awaiting=true; responded=false;
+      const updLive=()=>{const tot=hits+misses+miss+fa; if(tot)$('#g-live').textContent=Math.round((hits+misses)/tot*100)+'%';};
+      window._to=setTimeout(()=>{
+        awaiting=false;
+        if(isMatch && !responded){ miss++; cur.style.color='var(--dim)'; }
+        else if(!isMatch && !responded){ misses++; }
+        updLive();
+        cur.style.opacity=.18;
+        window._to=setTimeout(next,420);
+      }, 2000);
+    }
+    function respond(){ if(!awaiting||responded||done)return; responded=true;
+      if(isMatch){ hits++; Sound.good(); buzz(15); cur.style.color='var(--good)'; }
+      else { fa++; Sound.bad(); buzz([30,40,30]); cur.style.color='var(--warn)'; }
+      const tot=hits+misses+miss+fa; if(tot)$('#g-live').textContent=Math.round((hits+misses)/tot*100)+'%';
+    }
+    function end(){ done=true;
+      const tot=hits+misses+miss+fa;
+      const acc=tot?Math.round((hits+misses)/tot*100):0;
+      const hitRate=hitTotal?Math.round(hits/hitTotal*100):0;
+      const E=T.nbackEnd;
+      let h;
+      if(hitRate>=80 && fa<=2) h=E.good;
+      else if(hitRate<50) h=E.bad;
+      else h=E.mid;
+      result({eyebrow:E.eyebrow,big:acc+'%',
+        stats:[[E.s1,acc+'%'],[E.s2,hitRate+'%'],[E.s3,fa]],handoff:h,gameId:'nback',scoreVal:acc});
+    }
+    window._key=e=>{if(e.code==='Space'){e.preventDefault();respond();}};
+    document.addEventListener('keydown',window._key); $('#gbody').onpointerdown=respond;
+    timer(SEC,end); next();
+  }
+};
+
+/* ===================== GAME 5 · VISUAL SEARCH ===================== */
+const VSearch={
+  rules(){ const b=$('#gbody');b.innerHTML='';
+    const r=el('div','rules');
+    const R=T.searchRules;
+    const demoGrid='<div style="display:grid;grid-template-columns:repeat(3,28px);gap:6px;margin:.5rem 0"><span style="color:#a59c87;font-family:Fraunces;font-size:1.3rem">E</span><span style="color:#a59c87;font-family:Fraunces;font-size:1.3rem">E</span><span style="color:#a59c87;font-family:Fraunces;font-size:1.3rem">E</span><span style="color:#a59c87;font-family:Fraunces;font-size:1.3rem">E</span><span style="color:var(--good);font-family:Fraunces;font-size:1.3rem;border:1px solid var(--good);border-radius:4px">F</span><span style="color:#a59c87;font-family:Fraunces;font-size:1.3rem">E</span><span style="color:#a59c87;font-family:Fraunces;font-size:1.3rem">E</span><span style="color:#a59c87;font-family:Fraunces;font-size:1.3rem">E</span><span style="color:#a59c87;font-family:Fraunces;font-size:1.3rem">E</span></div>';
+    r.innerHTML=`<h2>${R.h}</h2>
+      <div class="demo">${demoGrid}<div style="font-size:.78rem;color:var(--dim);letter-spacing:.08em">${R.label}</div></div>
+      <p>${R.p}</p>
+      <div class="hint">${R.hint}</div>`;
+    b.appendChild(r);
+    const btn=el('button','btn primary',T.rulesStart); btn.onclick=()=>VSearch.start(); r.appendChild(btn);
+  },
+  start(){ clearAll(); Sound.click(); const b=$('#gbody');b.innerHTML=''; lead(b,()=>VSearch.run()); },
+  run(){ const b=$('#gbody');b.innerHTML='';
+    const lab=el('div','qlabel',T.searchQ);
+    const grid=el('div','vs-grid');
+    const prog=el('div','vs-progress','01 / 10');
+    b.appendChild(lab); b.appendChild(grid); b.appendChild(prog);
+
+    const PAIRS=[['E','F'],['O','Q'],['M','N'],['C','G'],['P','R'],['V','Y'],['B','D'],['L','I']];
+    let qIdx=0, correct=0, total=10, times=[], qStart=0, done=false, targetCell=null;
+    function makeQ(){
+      if(done)return;
+      grid.innerHTML='';
+      const size=qIdx<3?3:qIdx<6?4:5;
+      grid.style.gridTemplateColumns=`repeat(${size},32px)`;
+      const total_=size*size;
+      const [a,b_]=PAIRS[Math.floor(Math.random()*PAIRS.length)];
+      const targetIdx=Math.floor(Math.random()*total_);
+      for(let i=0;i<total_;i++){
+        const c=el('div','vs-cell');
+        c.textContent=(i===targetIdx?b_:a);
+        if(i===targetIdx){ targetCell=c; c._target=true; }
+        c.onclick=()=>{
+          const rt=performance.now()-qStart;
+          if(c._target){ correct++; times.push(rt); Sound.click(); buzz(15); c.style.color='var(--good)'; }
+          else { Sound.bad(); buzz([30,40,30]); c.style.color='var(--warn)'; setTimeout(()=>c.style.color='#a59c87',300); return; }
+          qIdx++;
+          if(qIdx>=total) end(); else { setTimeout(makeQ,260); }
+          const accNow=Math.round(correct/(qIdx)*100); $('#g-live').textContent=accNow+'%';
+        };
+        grid.appendChild(c);
+      }
+      qStart=performance.now();
+      prog.textContent=String(qIdx+1).padStart(2,'0')+' / '+total;
+    }
+    function end(){ done=true;
+      const acc=Math.round(correct/total*100);
+      const avgRT=times.length?Math.round(times.reduce((a,c)=>a+c,0)/times.length):0;
+      const E=T.searchEnd;
+      let h;
+      if(acc>=90 && avgRT<1500) h=E.good;
+      else if(acc<70) h=E.bad;
+      else h=E.mid;
+      result({eyebrow:E.eyebrow,big:acc+'%',
+        stats:[[E.s1,acc+'%'],[E.s2,(avgRT/1000).toFixed(1)+'s'],[E.s3,total]],handoff:h,gameId:'search',scoreVal:acc});
+    }
+    $('#timebar').style.visibility='hidden';
+    makeQ();
+  }
+};
+
+/* ===================== GAME 6 · BREATHING (4-7-8) ===================== */
+const Breath={
+  rules(){ const b=$('#gbody');b.innerHTML='';
+    const r=el('div','rules');
+    const R=T.breathRules;
+    r.innerHTML=`<h2>${R.h}</h2>
+      <div class="demo"><div class="anchor" style="width:80px;height:80px;animation-duration:6s"></div></div>
+      <p>${R.p}</p>
+      <div class="hint">${R.hint}</div>`;
+    b.appendChild(r);
+    const btn=el('button','btn primary',T.rulesStartShort); btn.onclick=()=>Breath.start(); r.appendChild(btn);
+  },
+  start(){ clearAll(); Sound.click(); Sound.init();
+    const b=$('#gbody');b.innerHTML='';
+    const pick=el('div',null); pick.style.cssText='display:flex;flex-direction:column;align-items:center;gap:1.2rem';
+    pick.innerHTML=`<div style="font-size:.9rem;color:var(--dim)">${T.breathPick}</div>`;
+    const row=el('div',null); row.style.cssText='display:flex;gap:.8rem';
+    T.breathPickOpts.forEach(([k,l])=>{
+      const btn=el('button','wander-btn',l); btn.style.marginTop='0';
+      btn.onclick=()=>{Sound.click();if(k!=='none')Sound.startAmbient(k);Breath.run();};
+      row.appendChild(btn);
+    });
+    pick.appendChild(row); b.appendChild(pick);
+  },
+  run(){ const b=$('#gbody');b.innerHTML='';
+    const orb=el('div','br-orb-anim');
+    const phase=el('div','br-phase',T.breathPhases.in);
+    const cyc=el('div','br-cycle',T.breathCycle(1,6));
+    b.appendChild(orb); b.appendChild(phase); b.appendChild(cyc);
+
+    const CYCLES=6;
+    let c=1, done=false;
+
+    function phaseTick(){
+      if(done)return;
+      phase.textContent=T.breathPhases.in;
+      window._to=setTimeout(()=>{ if(done)return; phase.textContent=T.breathPhases.hold;
+        window._to2=setTimeout(()=>{ if(done)return; phase.textContent=T.breathPhases.out;
+          window._to3=setTimeout(()=>{ if(done)return;
+            c++;
+            if(c>CYCLES){ end(); return; }
+            cyc.textContent=T.breathCycle(c,CYCLES);
+            phaseTick();
+          }, 8000);
+        }, 7000);
+      }, 4000);
+    }
+    function end(){ done=true; Sound.stopAmbient();
+      const E=T.breathEnd;
+      result({eyebrow:E.eyebrow,big:'✓',
+        stats:[[E.s1,CYCLES],[E.s2,E.dur]],
+        handoff:E.good,gameId:'breath',scoreVal:null});
+    }
+    $('#timebar').style.visibility='hidden';
+    phaseTick();
+  }
+};
+
+/* ===================== TREND PAGE ===================== */
+function renderTrend(){
+  const w=$('#trendwrap'); w.innerHTML='';
+  w.appendChild(el('div','trend-h',T.trendH));
+  w.appendChild(el('div','trend-sub',T.trendSub));
+  const trackable=GAMES.filter(g=>g.live&&g.unit==='%');
+  let any=false;
+  trackable.forEach(g=>{
+    const data=DB.all(g.id); if(!data.length)return; any=true;
+    const card=el('div','tcard');
+    const best=DB.best(g.id), last=DB.last(g.id);
+    const gName = (T.games[g.id] && T.games[g.id].name) || g.name;
+    card.innerHTML=`<h4>${gName}<b>${last}${g.unit}</b></h4><div class="meta">${T.trendCount(data.length)} · ${T.trendBest} ${best}${g.unit}</div>`;
+    const svg=sparkline(data.map(d=>d.v)); card.appendChild(svg);
+    w.appendChild(card);
+  });
+  if(!any){ w.appendChild(el('div','empty',T.trendEmpty)); }
+}
+function sparkline(vals){
+  const W=380,H=54,pad=4; const max=Math.max(...vals,100),min=Math.min(...vals,0);
+  const xs=i=>vals.length<=1?W/2:pad+i*(W-2*pad)/(vals.length-1);
+  const ys=v=>H-pad-((v-min)/((max-min)||1))*(H-2*pad);
+  const ns='http://www.w3.org/2000/svg'; const svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('class','spark'); svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  let d=''; vals.forEach((v,i)=>{d+=(i?'L':'M')+xs(i)+' '+ys(v)+' ';});
+  const path=document.createElementNS(ns,'path'); path.setAttribute('d',d);
+  path.setAttribute('fill','none');path.setAttribute('stroke','#c9b88a');path.setAttribute('stroke-width','1.6');
+  path.setAttribute('stroke-linejoin','round');path.setAttribute('stroke-linecap','round');
+  svg.appendChild(path);
+  vals.forEach((v,i)=>{const c=document.createElementNS(ns,'circle');c.setAttribute('cx',xs(i));c.setAttribute('cy',ys(v));
+    c.setAttribute('r',i===vals.length-1?3:1.8);c.setAttribute('fill',i===vals.length-1?'#ece7dd':'#c9b88a');svg.appendChild(c);});
+  return svg;
+}
+
+/* ===================== INIT ===================== */
+renderSoundBtn(); renderHome();
+$('#soundBtn').onclick=()=>{Sound.init();Sound.toggle();};
+$('#anchorAdClose').onclick=()=>{
+  $('#anchorAd').classList.add('hidden');
+  document.querySelector('.app').style.paddingBottom='0';
+};
+document.addEventListener('pointerdown',()=>{Sound.init();Sound.resume();},{once:true});
+
+/* film grain — static, drawn once on resize. animating it ate CPU on mobile. */
+const cv=$('#noise'),cx=cv.getContext('2d');
+function drawGrain(){
+  cv.width=innerWidth;cv.height=innerHeight;
+  const d=cx.createImageData(cv.width,cv.height),p=d.data;
+  for(let i=0;i<p.length;i+=4){const v=Math.random()*255;p[i]=p[i+1]=p[i+2]=v;p[i+3]=255;}
+  cx.putImageData(d,0,0);
+}
+drawGrain();
+let _rsz; addEventListener('resize',()=>{clearTimeout(_rsz);_rsz=setTimeout(drawGrain,200);});
+</script>
+</body>
+</html>
