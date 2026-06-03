@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>换换脑子 · Brain Stretch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Noto+Serif+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Noto+Serif+SC:wght@300;400;500;700&family=LXGW+WenKai+TC:wght@300;400&display=swap');
 
 :root{
   --bg:#14110d; --ink:#ece7dd; --dim:#8a8377; --line:#322d26;
@@ -19,7 +21,7 @@
 html,body{height:100%;overscroll-behavior:none}
 body{
   background:radial-gradient(120% 100% at 50% 0%, #1f1b15 0%, var(--bg) 70%);
-  color:var(--ink); font-family:'Noto Serif SC',serif;
+  color:var(--ink); font-family:'Noto Serif SC','Songti SC','Source Han Serif SC','Source Han Serif CN',STSong,SimSun,'宋体',serif;
   display:flex;align-items:center;justify-content:center;overflow:hidden;user-select:none;
 }
 #noise{position:fixed;inset:0;pointer-events:none;opacity:.035;z-index:1}
@@ -72,21 +74,23 @@ body{
 .sound svg{width:18px;height:18px}
 
 /* ---------- HOME ---------- */
-.brand{margin-top:3rem;text-align:center}
+.brand{margin-top:2.4rem;text-align:center}
+.logo{display:flex;justify-content:center;margin-bottom:1.4rem;opacity:.9}
+.logo svg{display:block}
 .brand .zh{
-  font-family:'Fraunces','Noto Serif SC',serif;
+  font-family:'Fraunces','Noto Serif SC','Songti SC','Source Han Serif SC',STSong,SimSun,'宋体',serif;
   font-weight:400;
   font-size:2.85rem;
   letter-spacing:.05em;
   line-height:1.2;
   white-space:nowrap;
 }
-.brand .en{font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--dim);margin-top:.85rem;white-space:nowrap}
-.tagline{text-align:center;color:#b8b1a3;font-size:.95rem;line-height:1.8;margin:1.8rem auto 0;max-width:30ch}
+.brand .en{font-size:.68rem;letter-spacing:.38em;text-transform:uppercase;color:var(--dim);margin-top:.85rem;white-space:nowrap}
+.tagline{text-align:center;color:#b8b1a3;font-size:1.05rem;line-height:1.85;margin:1.8rem auto 0;max-width:30ch}
 .tagline b{color:var(--ink);font-weight:500}
 
-.profilebar{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:1.7rem;font-size:.8rem;color:var(--dim)}
-.trendlink-top{display:flex;align-items:center;gap:.45rem;color:var(--go);cursor:pointer;font-size:.85rem;transition:opacity .2s}
+.profilebar{display:flex;align-items:center;justify-content:center;gap:.4rem;margin-top:1.7rem;font-size:.88rem;color:var(--dim)}
+.trendlink-top{display:flex;align-items:center;gap:.45rem;color:var(--go);cursor:pointer;font-size:.92rem;transition:opacity .2s}
 .trendlink-top:hover{opacity:.75}
 
 .cards-wrap{position:relative;margin-top:1.8rem}
@@ -102,7 +106,7 @@ body{
 .legal .rights{color:#5a544a;font-size:.66rem;letter-spacing:.05em;margin-top:.3rem}
 
 /* Buy Me a Coffee link */
-.bmc{display:inline-flex;align-items:center;gap:.5rem;font-size:.82rem;color:#1a1610;text-decoration:none;padding:.7rem 1.4rem;border-radius:30px;background:var(--go);font-weight:500;transition:transform .3s var(--spring-out),background .25s}
+.bmc{display:inline-flex;align-items:center;gap:.5rem;font-size:.88rem;color:#1a1610;text-decoration:none;padding:.7rem 1.4rem;border-radius:30px;background:var(--go);font-weight:500;transition:transform .3s var(--spring-out),background .25s}
 .bmc:hover{background:#d6c595;transform:translateY(-1px)}
 .bmc:active{transform:translateY(0) scale(.97);transition-duration:.08s}
 .bmc svg{opacity:1}
@@ -123,14 +127,14 @@ body{
 .card.live:active{transform:translateY(0) scale(.985);transition-duration:.08s}
 .card .ic{width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .card .tx{flex:1;min-width:0;overflow:hidden}
-.card .tx h3{font-family:'Fraunces','Noto Serif SC',serif;font-weight:400;font-size:1.2rem;margin-bottom:.35rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card .tx p{font-size:.72rem;color:var(--dim);line-height:1.5;letter-spacing:.18em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card .tx .how{color:#837c70;letter-spacing:.04em;margin-left:.5em}
+.card .tx h3{font-family:'Fraunces','Noto Serif SC','Songti SC','Source Han Serif SC',STSong,SimSun,'宋体',serif;font-weight:400;font-size:1.32rem;margin-bottom:.4rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .tx p{font-size:.8rem;color:var(--dim);line-height:1.55;letter-spacing:.1em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .tx .how{color:#8f877a;letter-spacing:.02em;margin-left:.5em}
 .card .best{font-size:.62rem;color:var(--go);margin-top:.3rem;letter-spacing:.05em}
 .card .soon{font-size:.6rem;letter-spacing:.2em;color:var(--dim);border:1px solid var(--line);padding:.2rem .5rem;border-radius:20px}
 .card.locked{opacity:.4;cursor:default}
 
-.trendlink{font-size:.92rem;color:var(--go);cursor:pointer;display:flex;align-items:center;gap:.5rem;transition:opacity .2s}
+.trendlink{font-size:.98rem;color:var(--go);cursor:pointer;display:flex;align-items:center;gap:.5rem;transition:opacity .2s}
 .trendlink:hover{opacity:.8}
 .homenote{text-align:center;font-size:.7rem;color:var(--dim);line-height:1.6}
 
@@ -268,6 +272,17 @@ kbd{font-family:'Fraunces',serif;border:1px solid var(--line);padding:.12rem .55
   <!-- HOME -->
   <section class="screen on" id="home">
     <div class="brand">
+      <div class="logo">
+        <svg width="68" height="68" viewBox="0 0 80 80" fill="none">
+          <path d="M40 16 A24 24 0 0 1 64 40 A24 24 0 0 1 40 64" stroke="#c9b88a" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M40 64 A24 24 0 0 1 24 58" stroke="#8a8377" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M18 52 L20 54" stroke="#6e6759" stroke-width="2" stroke-linecap="round"/>
+          <path d="M15 45 L16 47" stroke="#5a544a" stroke-width="2" stroke-linecap="round"/>
+          <path d="M15 36 L15.5 37.5" stroke="#46402f" stroke-width="2" stroke-linecap="round"/>
+          <path d="M18 28 L19 29.5" stroke="#46402f" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="40" cy="40" r="6" fill="#c9b88a"/>
+        </svg>
+      </div>
       <div class="zh" id="brandZh"></div>
       <div class="en" id="brandEn"></div>
     </div>
@@ -388,7 +403,7 @@ const I18N = {
     searchEnd: { eyebrow: '视觉搜索 · 本次', s1: '正确率', s2: '平均用时', s3: '题数', good: '眼到、手到、心到 —— 注意力很集中。', mid: '稳。主动扫描比被动等内容跳出来累，但这才是真正的"看"。', bad: '被干扰拽走了几次。下一次试着用"扫"而不是"瞟"。' },
     breathRules: { h: '呼吸调节', p: '跟着圆圈呼吸 —— <b style="color:var(--go)">吸 4 秒、屏 7 秒、呼 8 秒</b>。<br>呼气更长，让神经放松下来。', hint: '不是练专注，是把烦躁压下去 —— 给专注创造前提<br><span style="color:var(--go)">▸ 建议打开声音</span>' },
     breathPick: '选一种背景音',
-    breathPickOpts: [['waves','海浪'],['bamboo','竹林风'],['none','安静']],
+    breathPickOpts: [['waves','海浪'],['bamboo','竹林风'],['cosmos','宇宙'],['none','安静']],
     breathPhases: { in: '吸', hold: '屏', out: '呼' },
     breathCycle: (c, t) => `循环 ${c} / ${t}`,
     breathEnd: { eyebrow: '呼吸调节 · 本次', s1: '完成循环', s2: '时长', dur: '约 2 分钟', good: '身体慢下来了。烦躁退潮，专注才有可能站上来。' },
@@ -453,7 +468,7 @@ const I18N = {
     searchEnd: { eyebrow: 'Visual Search · this round', s1: 'Accuracy', s2: 'Avg time', s3: 'Trials', good: 'Eye, hand, mind — all aligned.', mid: 'Steady. Active scanning is heavier than passive viewing, but it\'s the real act of seeing.', bad: 'Got pulled by distractors. Try "scanning" instead of "glancing" next time.' },
     breathRules: { h: 'Breathing', p: 'Breathe with the orb — <b style="color:var(--go)">inhale 4s, hold 7s, exhale 8s</b>.<br>Long exhales release the nervous system.', hint: 'Not focus training — calming agitation, so focus has a chance.<br><span style="color:var(--go)">▸ Turn sound on</span>' },
     breathPick: 'Pick a sound',
-    breathPickOpts: [['waves','Waves'],['bamboo','Bamboo wind'],['none','Silence']],
+    breathPickOpts: [['waves','Waves'],['bamboo','Bamboo wind'],['cosmos','Cosmos'],['none','Silence']],
     breathPhases: { in: 'In', hold: 'Hold', out: 'Out' },
     breathCycle: (c, t) => `Cycle ${c} / ${t}`,
     breathEnd: { eyebrow: 'Breathing · this round', s1: 'Cycles', s2: 'Duration', dur: '~2 min', good: 'The body slowed. As agitation recedes, focus has a chance to return.' },
@@ -511,6 +526,15 @@ const Sound={
       const lfo=this.ctx.createOscillator(), lg=this.ctx.createGain();
       lfo.frequency.value=0.12; lg.gain.value=.06; lfo.connect(lg).connect(g.gain); lfo.start(); this._lfo=lfo;
       g.gain.value=.10;
+    } else if(kind==='cosmos'){ // 宇宙: deep space drone, very low + slow filter sweep
+      filter.type='lowpass'; filter.frequency.value=180; filter.Q.value=2;
+      const lfo=this.ctx.createOscillator(), lg=this.ctx.createGain();
+      lfo.frequency.value=0.05; lg.gain.value=90; lfo.connect(lg).connect(filter.frequency); lfo.start(); this._lfo=lfo;
+      // add a faint low drone oscillator for depth
+      const drone=this.ctx.createOscillator(), dg=this.ctx.createGain();
+      drone.type='sine'; drone.frequency.value=55; dg.gain.value=.04;
+      drone.connect(dg).connect(this.ctx.destination); drone.start(); this._drone=drone; this._droneGain=dg;
+      g.gain.value=.08;
     } else { // bamboo wind: higher, airier
       filter.type='bandpass'; filter.frequency.value=1200; filter.Q.value=.6;
       const lfo=this.ctx.createOscillator(), lg=this.ctx.createGain();
@@ -522,7 +546,8 @@ const Sound={
   },
   stopAmbient(){ try{ if(this.noiseNode){this.noiseGain.gain.linearRampToValueAtTime(0,this.ctx.currentTime+.4);
     const n=this.noiseNode;setTimeout(()=>{try{n.stop();}catch(e){}},450);this.noiseNode=null;}
-    if(this._lfo){try{this._lfo.stop();}catch(e){}this._lfo=null;} }catch(e){} },
+    if(this._lfo){try{this._lfo.stop();}catch(e){}this._lfo=null;}
+    if(this._drone){try{this._droneGain.gain.linearRampToValueAtTime(0,this.ctx.currentTime+.4);const dr=this._drone;setTimeout(()=>{try{dr.stop();}catch(e){}},450);}catch(e){}this._drone=null;} }catch(e){} },
   toggle(){ this.on=!this.on; if(!this.on)this.stopAmbient(); renderSoundBtn(); }
 };
 function buzz(ms){ if(navigator.vibrate)navigator.vibrate(ms); } // H5 vibration (Android/WeChat; iOS Safari unsupported)
@@ -550,11 +575,11 @@ const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=nu
 
 const GAMES=[
   {id:'gng',title:'Go / No-Go',name:'Go / No-Go',desc:'反应抑制',how:'看到数字就点 · 唯独看到 3 别动',live:true,unit:'%',
-   icon:'<svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="13" stroke="#c9b88a" stroke-width="1.3"/><circle cx="19" cy="19" r="4" fill="#c9b88a"/></svg>'},
-  {id:'stroop',title:'Stroop',name:'斯特鲁普效应',desc:'抗干扰',how:'选字的颜色 · 别读字',live:true,unit:'%',
-   icon:'<svg width="38" height="38" viewBox="0 0 38 38"><text x="19" y="25" font-size="20" fill="#86a37d" text-anchor="middle" font-family="serif">红</text></svg>'},
+   icon:'<svg width="38" height="38" viewBox="0 0 38 38" fill="none"><text x="19" y="27" font-size="26" fill="#c9b88a" text-anchor="middle" font-family="Fraunces,serif" font-weight="300">3</text></svg>'},
   {id:'breath',title:'Breathing',name:'呼吸调节',desc:'平静下来',how:'跟着圆圈呼吸 · 4-7-8 节奏',live:true,unit:'',
    icon:'<svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="14" stroke="#c9b88a" stroke-width="1.2" opacity=".5"/><circle cx="19" cy="19" r="8" stroke="#c9b88a" stroke-width="1.2"/><circle cx="19" cy="19" r="3" fill="#c9b88a"/></svg>'},
+  {id:'stroop',title:'Stroop',name:'斯特鲁普效应',desc:'抗干扰',how:'选字的颜色 · 别读字',live:true,unit:'%',
+   icon:'<svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="15" cy="19" r="8" stroke="#c9b88a" stroke-width="1.4" opacity=".5"/><circle cx="26" cy="19" r="4.5" fill="#c9b88a"/></svg>'},
   {id:'anchor',title:'Focused Attention',name:'专注力锚',desc:'走神拉回',how:'盯住一个点 · 走神了就拉回来',live:false,
    icon:'<svg width="38" height="38" viewBox="0 0 38 38"><circle cx="19" cy="19" r="6" fill="#c9b88a"/><circle cx="19" cy="19" r="13" stroke="#46402f" stroke-width="1"/></svg>'},
   {id:'search',title:'Visual Search',name:'视觉搜索',desc:'选择性注意',how:'找出那个不一样的 · 点它',live:true,unit:'%',
