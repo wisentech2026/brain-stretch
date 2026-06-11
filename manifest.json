@@ -1,0 +1,14 @@
+{
+  "name": "换换脑子 · Brain Stretch",
+  "short_name": "换换脑子",
+  "description": "想刷手机的时候，点开这里。花一分钟把注意力收回来，然后回去做事。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#14110d",
+  "theme_color": "#14110d",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
